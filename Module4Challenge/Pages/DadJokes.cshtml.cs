@@ -20,10 +20,12 @@ public class IndexModel : PageModel
         "Why did the AI model get detention? It kept copying from its training set.",
         "Why was the LLM a bad listener? It kept interrupting and completeing sentences."
     ];
-    public List<string> JokesToDisplay { get; set; }
+    public List<string> JokesToDisplay { get; set; } = new List<string>();
     public int AmountToShow { get; set; } = 2;
     // initialize property for joke currently being added
     public string JokeBeingAdded { get; set; } = string.Empty;
+    // initialize list of new jokes for when user submits form for more
+    public List<string> MoreNewJokes { get; set; } = new List<string>();
 
     // OnGet() executes when page is initially displayed
     public void OnGet()
@@ -31,31 +33,61 @@ public class IndexModel : PageModel
         // create instance of random class
         Random rand = new Random();
         // create loop to repeat as many times as AmountToShow
-        for (int i = 0; i < AmountToShow; i++)
-        {
+        for (int i = 0; i < AmountToShow; i++) {
             // generate random number within bounds of array index
             int arrayIndex = rand.Next(0, DadJokes.Count());
             // access item for random generated index in DadJokes array and store in property
             JokeBeingAdded = DadJokes[arrayIndex];
             // check if list if empty; if so, add joke to display since there cannot be duplicates yet
-            if (JokesToDisplay.Count == 0)
-            {
+            if (JokesToDisplay.Count == 0) {
                 JokesToDisplay.Add(JokeBeingAdded);
-            } else
+            } else {
             // otherwise, check if item is in JokesToDisplay
-            {
-                // check each item in list
-                foreach (string joke in JokesToDisplay)
-                {
-                    
-                }
-            }
-        }
-    }
+                // if statement executes if list contains joke trying to be added (prevents duplicates)
+                if (JokesToDisplay.Contains(JokeBeingAdded)) {
+                    // continue to execute while list contains joke trying to be added
+                    while (JokesToDisplay.Contains(JokeBeingAdded)) {
+                        // regenerate random number within bounds of array index
+                        arrayIndex = rand.Next(0, DadJokes.Count());
+                        // access joke via new generated random index
+                        JokeBeingAdded = DadJokes[arrayIndex];
+                    } // end while loop
+                    // add joke to list once it is verified to not be a duplicate
+                    JokesToDisplay.Add(JokeBeingAdded);
+                } else {
+                    JokesToDisplay.Add(JokeBeingAdded);
+                } // end if else contains
+            } // end if else empty
+        } // end for loop
+    } // end OnGet
 
     // OnPost() executes when user submits form
     public void OnPost()
     {
-        
-    }
-}
+        // create new instance of random class
+        Random rand = new Random();
+        // create loop to repeat as many times as AmountToShow
+        for (int i = 0; i < AmountToShow; i++)
+        {
+            // generate random int to correspond to a joke's index; store in new variable
+            int postArrayIndex = rand.Next(0, DadJokes.Count());
+            // access joke via new generated index
+            JokeBeingAdded = DadJokes[postArrayIndex];
+            // if statement executes if list contains joke trying to be added (checking that joke has not already been shown to user)
+            if (JokesToDisplay.Contains(JokeBeingAdded) || MoreNewJokes.Contains(JokeBeingAdded)) {
+                // continue to execute while either list contains joke trying to be added
+                while (JokesToDisplay.Contains(JokeBeingAdded) || MoreNewJokes.Contains(JokeBeingAdded)) {
+                    // regenerate random number within bounds of array index
+                    postArrayIndex = rand.Next(0, DadJokes.Count());
+                    // access joke via new generated random index
+                    JokeBeingAdded = DadJokes[postArrayIndex];
+                } // end while loop
+                // add joke to list once it is verified to not be a duplicate
+                    JokesToDisplay.Add(JokeBeingAdded);
+            // add joke if not duplicate        
+            } else {
+                JokesToDisplay.Add(JokeBeingAdded);
+            } // end if else contains joke clause
+        } // end for loop
+    } // end OnPost
+} // end namespace
