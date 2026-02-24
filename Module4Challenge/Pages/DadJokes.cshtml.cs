@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Module4Challenge.Pages;
 public class IndexModel : PageModel 
-{
+{   
+    [BindProperty]
     // create attributes to describe class and store data
     public string[] DadJokes { get; set; } =
     [
