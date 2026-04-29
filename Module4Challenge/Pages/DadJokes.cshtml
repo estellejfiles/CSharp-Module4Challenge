@@ -1,11 +1,11 @@
 @page
-@model Module4Challenge.Pages.IndexModel
+@model Module4Challenge.Pages.DadJokesModel
 @{
     ViewData["Title"] = "Dad Joke Generator";
 }
 
- <!-- container to hold content -->
- <div class="container mt-5">
+<!-- container to hold content -->
+<div class="container mt-5">
     <!-- heading to welcome users -->
     <h1 class="text-center">Welcome to the Dad Joke Generator!</h1>
     <!-- card to display initally generated jokes -->
@@ -21,5 +21,11 @@
                 }
             </ul>
         </div>
+    </div>
+    <div>
+        <!-- button to generate more jokes -->
+         <form method="post">
+            <button type="submit">Generate More Jokes</button>
+         </form>
     </div>
  </div>
